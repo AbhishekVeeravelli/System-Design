@@ -63,7 +63,82 @@ Scalability ****is basically handling the growing amount of load by adding the r
     
                 
     
-            **Availability = Uptime / (Uptime+Downtime)**
+            **$Availability = Uptime / (Uptime+Downtime)$**
     
 
-Strategies of Improving Availability
+### Strategies of Improving Availability
+
+1. **Redundancy:**
+- Redundancy involves having backup component that can take over when primary component fails
+- There are 3 types of Redundancies
+
+       1. Server Redundancy: Deploying the multiple servers to handle the requests, ensuring that if one server fails the other can continue to provide the service
+
+  2. Database Redundancy: Creating the replica of the database if the primary db fails
+
+   3. Geographic Redundancy:  Distributing resources across multiple geographic locations to mitigate the impact of regional failure
+
+1. **Load Balancing:**
+- Load Balancing is one of the mechanism which distributes the traffic across a cluster of servers to improve the responsiveness and availability of applications/websites/DB’s etc.
+- LB also tracks the status of each resources along with distributing requests
+- If server is not available to take a new request or not responding or has the elevated error rate the LB will not send the traffic to such server
+- LB always bound to do two tasks one is it balances the applications traffic by distributing across multiple servers and prevents application server from becoming a single point of failure by reducing server load
+- To utilise the full scalability and redundancy, we can try to balance the load at each layer of the system. We can add LB’s at three places
+
+          1. Between Client and web server
+
+    2. Between web server and internal platform layer like application server/cache servers
+
+    3. Between internal platform layer and DB
+
+- There are two types of LB’s
+    
+       1. Hardware Load Balancers : These are the physical devices to distribute the traffic based on pre configured rules
+    
+        2. Software Load Balancers: These are the software solutions that manage traffic distribution, such as cloud based solutions like AWS load balancer
+    
+
+**Advantages of LB**
+
+- Faster User Experience, Uninterrupted service
+- Service providers experience less downtime and higher throughput
+- Helps in handling the incoming requests while decreasing the wait time for users
+- Smart LB’s gives the actionable insights to the organisations by predicting the traffic bottle necks before they happen
+1. **FailOver Mechanism**
+- Failover mechanism automatically switches to a redundant system when failure is detected
+
+        1. Active passive failover: When a active server fails the passive server which is on standby takes over upon failure
+
+    2. Active-Active failover: All components are active and share the load if one fails the remaining component continue to handle the load seamlessly
+
+1. **Data Replication:**  This involves copying data from one location to another to ensure the data is available even if anyone fails
+
+        Synchronous Replication: Data is replicated in real time to ensure consistency across locations
+
+   Asynchronous Replication: Data is replicated with a delay, which may be efficient but can have slight data inconsistency
+
+1. **Monitoring and Alerts**
+- Continuous health monitoring requires checking the status of the system components to detect the failure early and trigger the alerts for immediate actions
+- There are different techniques like Heartbeat Signals,Health checks and Alerting systems
+
+### **Best Practices for High Availability**
+
+1. Design for failure: Always assume any component can fail at anytime design the system accordingly
+2. Implement health checks: Do regular health checks and respond to issue before becoming critical
+3. Use Multiple Availability zone
+4. Practice Chaos Engineering: Intentionally send failures to test
+5. Implement circuit breakers: Prevent cascading failures by cutting off problematic service  
+6. Caching wisely: Caching can improve the availability by reducing load on backend systems
+7. Plan for Capacity: Ensure system can handle expected and unexpected load increases
+8. By implementing strategies like redundancy, load balancing, failover mechanism and data replication helps in high availability of systems
+
+## CAP Theorem
+
+- CAP Stands for Consistency, Availability and Partitioning Tolerance
+- This theorem states that it is impossible for a distributed data store to simultaneously provide all three guarantees.
+
+       1. Consistency(C): Every read receives the most recent write or an error.
+
+ 2. Availability(A): Every request receives a  non-error response without guarantee that it contains most recent write.
+
+ 3. Partition Tolerance(P) : The system continues to operate despite an arbitrary number of messages  being dropped(or delayed) by the network between the nodes.
